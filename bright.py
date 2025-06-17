@@ -32,16 +32,16 @@ st.markdown("""
     
     /* Global styling - black background like BRIGHT website */
     .stApp {
-        background-color: #000000;
-        color: #ffffff;
-        font-family: 'Inter', sans-serif;
+        background-color: #000000 !important;
+        color: #ffffff !important;
+        font-family: 'Inter', sans-serif !important;
     }
     
     /* Main content styling */
     .main .block-container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-        background-color: #000000;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+        background-color: #000000 !important;
     }
     
     /* Chat container styling */
@@ -54,22 +54,22 @@ st.markdown("""
     
     /* Header styling with white text */
     .bright-header {
-        text-align: center;
-        margin-bottom: 30px;
-        padding: 20px;
-        color: #ffffff;
-        font-size: 2.5rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 2px;
+        text-align: center !important;
+        margin-bottom: 30px !important;
+        padding: 20px !important;
+        color: #ffffff !important;
+        font-size: 2.5rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 2px !important;
     }
     
     .bright-subheader {
-        text-align: center;
-        color: #ffffff;
-        font-size: 1.1rem;
-        margin-bottom: 30px;
-        opacity: 0.9;
+        text-align: center !important;
+        color: #ffffff !important;
+        font-size: 1.1rem !important;
+        margin-bottom: 30px !important;
+        opacity: 0.9 !important;
     }
     
     /* Message bubbles */
@@ -88,210 +88,211 @@ st.markdown("""
     }
     
     .user-bubble {
-        background: linear-gradient(135deg, #fdbc2c, #fda503);
-        color: #000000;
-        padding: 15px 20px;
-        border-radius: 20px 20px 6px 20px;
-        max-width: 70%;
-        min-width: 80px;
-        word-wrap: break-word;
-        box-shadow: 0 4px 16px rgba(253, 188, 44, 0.3);
-        font-size: 15px;
-        line-height: 1.5;
-        display: inline-block;
-        text-align: left;
-        white-space: pre-wrap;
-        vertical-align: top;
-        margin: 0;
-        font-weight: 500;
-        border: 1px solid rgba(253, 188, 44, 0.5);
+        background: linear-gradient(135deg, #fdbc2c, #fda503) !important;
+        color: #000000 !important;
+        padding: 15px 20px !important;
+        border-radius: 20px 20px 6px 20px !important;
+        max-width: 70% !important;
+        min-width: 80px !important;
+        word-wrap: break-word !important;
+        box-shadow: 0 4px 16px rgba(253, 188, 44, 0.3) !important;
+        font-size: 15px !important;
+        line-height: 1.5 !important;
+        display: inline-block !important;
+        text-align: left !important;
+        white-space: pre-wrap !important;
+        vertical-align: top !important;
+        margin: 0 !important;
+        font-weight: 500 !important;
+        border: 1px solid rgba(253, 188, 44, 0.5) !important;
     }
     
     /* Remove extra spacing from user bubble content */
     .user-bubble * {
-        margin: 0;
-        padding: 0;
-        color: #000000;
+        margin: 0 !important;
+        padding: 0 !important;
+        color: #000000 !important;
     }
     
     .user-bubble *:last-child {
-        margin-bottom: 0;
+        margin-bottom: 0 !important;
     }
     
     .bot-bubble {
-        background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7);
-        color: #000000;
-        padding: 15px 20px;
-        border-radius: 20px 20px 20px 6px;
-        max-width: 70%;
-        min-width: 80px;
-        word-wrap: break-word;
-        box-shadow: 0 4px 16px rgba(253, 165, 3, 0.3);
-        font-size: 15px;
-        line-height: 1.5;
-        border: 1px solid rgba(253, 165, 3, 0.5);
-        display: inline-block;
-        text-align: left;
-        white-space: pre-wrap;
-        vertical-align: top;
-        position: relative;
-        font-weight: 500;
-    }
-    
-    /* Remove gradient border effect for bot messages */
-    .bot-bubble::before {
-        display: none;
+        background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7) !important;
+        color: #000000 !important;
+        padding: 15px 20px !important;
+        border-radius: 20px 20px 20px 6px !important;
+        max-width: 70% !important;
+        min-width: 80px !important;
+        word-wrap: break-word !important;
+        box-shadow: 0 4px 16px rgba(253, 165, 3, 0.3) !important;
+        font-size: 15px !important;
+        line-height: 1.5 !important;
+        border: 1px solid rgba(253, 165, 3, 0.5) !important;
+        display: inline-block !important;
+        text-align: left !important;
+        white-space: pre-wrap !important;
+        vertical-align: top !important;
+        position: relative !important;
+        font-weight: 500 !important;
     }
     
     /* Markdown styling within bot bubbles */
     .bot-bubble h1, .bot-bubble h2, .bot-bubble h3 {
-        margin-top: 12px;
-        margin-bottom: 8px;
-        color: #000000;
-        font-weight: 600;
+        margin-top: 12px !important;
+        margin-bottom: 8px !important;
+        color: #000000 !important;
+        font-weight: 600 !important;
     }
     
     .bot-bubble p {
-        margin: 8px 0;
-        color: #000000;
+        margin: 8px 0 !important;
+        color: #000000 !important;
     }
     
     .bot-bubble ul, .bot-bubble ol {
-        margin: 12px 0;
-        padding-left: 20px;
-        color: #000000;
+        margin: 12px 0 !important;
+        padding-left: 20px !important;
+        color: #000000 !important;
     }
     
     .bot-bubble li {
-        margin: 4px 0;
-        color: #000000;
+        margin: 4px 0 !important;
+        color: #000000 !important;
     }
     
     .bot-bubble code {
-        background-color: rgba(0, 0, 0, 0.2);
-        color: #000000;
-        padding: 3px 6px;
-        border-radius: 6px;
-        font-family: 'Courier New', monospace;
-        font-size: 13px;
-        font-weight: 500;
+        background-color: rgba(0, 0, 0, 0.2) !important;
+        color: #000000 !important;
+        padding: 3px 6px !important;
+        border-radius: 6px !important;
+        font-family: 'Courier New', monospace !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
     }
     
     .bot-bubble pre {
-        background-color: rgba(0, 0, 0, 0.2);
-        border: 1px solid rgba(0, 0, 0, 0.3);
-        padding: 12px;
-        border-radius: 8px;
-        border-left: 4px solid #000000;
-        overflow-x: auto;
-        margin: 12px 0;
-        color: #000000;
+        background-color: rgba(0, 0, 0, 0.2) !important;
+        border: 1px solid rgba(0, 0, 0, 0.3) !important;
+        padding: 12px !important;
+        border-radius: 8px !important;
+        border-left: 4px solid #000000 !important;
+        overflow-x: auto !important;
+        margin: 12px 0 !important;
+        color: #000000 !important;
     }
     
     .bot-bubble pre code {
-        background: none;
-        color: #000000;
-        padding: 0;
+        background: none !important;
+        color: #000000 !important;
+        padding: 0 !important;
     }
     
     /* Remove extra spacing from bot bubble content */
     .bot-bubble * {
-        margin-bottom: 0;
-        color: #000000;
+        margin-bottom: 0 !important;
+        color: #000000 !important;
     }
     
     .bot-bubble *:last-child {
-        margin-bottom: 0;
+        margin-bottom: 0 !important;
     }
     
     /* Timestamp styling */
     .timestamp {
-        font-size: 11px;
-        color: #888;
-        margin: 4px 8px;
-        opacity: 0.8;
+        font-size: 11px !important;
+        color: #888 !important;
+        margin: 4px 8px !important;
+        opacity: 0.8 !important;
     }
     
     /* Input styling with BRIGHT theme */
     .stTextInput > div > div > input {
-        border-radius: 25px;
-        border: 2px solid rgba(253, 165, 3, 0.3);
-        padding: 15px 25px;
-        font-size: 15px;
-        background-color: #1a1a1a;
-        color: #ffffff;
-        transition: all 0.3s ease;
+        border-radius: 25px !important;
+        border: 2px solid rgba(253, 165, 3, 0.3) !important;
+        padding: 15px 25px !important;
+        font-size: 15px !important;
+        background-color: #1a1a1a !important;
+        color: #ffffff !important;
+        transition: all 0.3s ease !important;
     }
     
     .stTextInput > div > div > input:focus {
-        border: 2px solid #fdbc2c;
-        box-shadow: 0 0 0 0.2rem rgba(253, 188, 44, 0.25);
-        background-color: #2d2d2d;
+        border: 2px solid #fdbc2c !important;
+        box-shadow: 0 0 0 0.2rem rgba(253, 188, 44, 0.25) !important;
+        background-color: #2d2d2d !important;
     }
     
     .stTextInput > div > div > input::placeholder {
-        color: #888;
+        color: #888 !important;
+    }
+    
+    .stTextInput > div > div > input:disabled {
+        background-color: #0a0a0a !important;
+        border-color: rgba(253, 165, 3, 0.1) !important;
+        opacity: 0.6 !important;
     }
     
     /* Spinner styling */
     .stSpinner > div {
-        text-align: center;
+        text-align: center !important;
     }
     
     .stSpinner > div > div {
-        border-color: #fdbc2c #transparent #transparent #transparent;
+        border-color: #fdbc2c transparent transparent transparent !important;
     }
     
     /* Demo notice styling with BRIGHT theme */
     .demo-notice {
-        background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-        border: 1px solid rgba(253, 165, 3, 0.3);
-        border-radius: 15px;
-        padding: 20px;
-        margin: 30px 0;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-        position: relative;
+        background: linear-gradient(135deg, #1a1a1a, #2d2d2d) !important;
+        border: 1px solid rgba(253, 165, 3, 0.3) !important;
+        border-radius: 15px !important;
+        padding: 20px !important;
+        margin: 30px 0 !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+        position: relative !important;
     }
     
     .demo-notice::before {
-        content: '';
-        position: absolute;
-        inset: -1px;
-        padding: 1px;
-        background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7);
-        border-radius: inherit;
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask-composite: exclude;
-        -webkit-mask-composite: xor;
-        z-index: -1;
+        content: '' !important;
+        position: absolute !important;
+        inset: -1px !important;
+        padding: 1px !important;
+        background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7) !important;
+        border-radius: inherit !important;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
+        mask-composite: exclude !important;
+        -webkit-mask-composite: xor !important;
+        z-index: -1 !important;
     }
     
     .demo-notice strong {
-        background: linear-gradient(90deg, #fdbc2c, #fda503);
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        background: linear-gradient(90deg, #fdbc2c, #fda503) !important;
+        background-clip: text !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
     }
     
     .demo-notice {
-        color: #ffffff;
+        color: #ffffff !important;
     }
     
     /* Typing indicator */
     .typing-indicator {
-        display: flex;
-        justify-content: flex-start;
-        margin: 15px 0;
+        display: flex !important;
+        justify-content: flex-start !important;
+        margin: 15px 0 !important;
     }
     
     .typing-bubble {
-        background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-        border: 1px solid rgba(253, 165, 3, 0.2);
-        border-radius: 20px 20px 20px 6px;
-        padding: 12px 18px;
-        color: #fdbc2c;
-        font-style: italic;
-        animation: brightPulse 2s ease-in-out infinite;
+        background: linear-gradient(135deg, #1a1a1a, #2d2d2d) !important;
+        border: 1px solid rgba(253, 165, 3, 0.2) !important;
+        border-radius: 20px 20px 20px 6px !important;
+        padding: 12px 18px !important;
+        color: #fdbc2c !important;
+        font-style: italic !important;
+        animation: brightPulse 2s ease-in-out infinite !important;
     }
     
     @keyframes brightPulse {
@@ -311,66 +312,66 @@ st.markdown("""
     
     /* Scrollable chat area */
     .chat-messages {
-        max-height: 65vh;
-        overflow-y: auto;
-        padding-right: 10px;
-        margin-bottom: 25px;
-        scroll-behavior: smooth;
+        max-height: 65vh !important;
+        overflow-y: auto !important;
+        padding-right: 10px !important;
+        margin-bottom: 25px !important;
+        scroll-behavior: smooth !important;
     }
     
     /* Custom scrollbar with BRIGHT theme */
     .chat-messages::-webkit-scrollbar {
-        width: 8px;
+        width: 8px !important;
     }
     
     .chat-messages::-webkit-scrollbar-track {
-        background: #1a1a1a;
-        border-radius: 10px;
+        background: #1a1a1a !important;
+        border-radius: 10px !important;
     }
     
     .chat-messages::-webkit-scrollbar-thumb {
-        background: linear-gradient(180deg, #fdbc2c, #fda503);
-        border-radius: 10px;
+        background: linear-gradient(180deg, #fdbc2c, #fda503) !important;
+        border-radius: 10px !important;
     }
     
     .chat-messages::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(180deg, #fda503, #f737d8);
+        background: linear-gradient(180deg, #fda503, #f737d8) !important;
     }
     
     /* Footer styling */
     .bright-footer {
-        text-align: center;
-        margin-top: 30px;
-        color: #888;
-        font-size: 12px;
+        text-align: center !important;
+        margin-top: 30px !important;
+        color: #888 !important;
+        font-size: 12px !important;
     }
     
     .bright-footer strong {
-        background: linear-gradient(90deg, #fdbc2c, #fda503);
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 600;
+        background: linear-gradient(90deg, #fdbc2c, #fda503) !important;
+        background-clip: text !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        font-weight: 600 !important;
     }
     
     /* Title styling override */
     .stApp h1 {
-        display: none;
+        display: none !important;
     }
     
     /* Responsive adjustments */
     @media (max-width: 768px) {
         .user-bubble, .bot-bubble {
-            max-width: 85%;
-            font-size: 14px;
+            max-width: 85% !important;
+            font-size: 14px !important;
         }
         
         .bright-header {
-            font-size: 2rem;
+            font-size: 2rem !important;
         }
         
         .chat-container {
-            padding: 15px;
+            padding: 15px !important;
         }
     }
     </style>
@@ -439,7 +440,7 @@ def get_assistant_response(user_message):
     except Exception as e:
         return f"Sorry, I encountered an error: {str(e)}"
 
-# Function to send message (WhatsApp-style instant display)
+# Function to send message (WhatsApp-style)
 def send_message():
     user_input = st.session_state.user_input.strip()
     if not user_input or st.session_state.is_processing:
@@ -456,26 +457,6 @@ def send_message():
     # Set processing state and clear input
     st.session_state.is_processing = True
     st.session_state.user_input = ""
-    st.rerun()  # Force immediate rerun to show user message and typing indicator
-
-def get_response_async():
-    """Get response in background and update UI"""
-    if st.session_state.is_processing:
-        # Get assistant response
-        latest_message = st.session_state.messages[-1]['content']
-        assistant_response = get_assistant_response(latest_message)
-        
-        # Add assistant response to chat
-        timestamp = datetime.now().strftime("%H:%M")
-        st.session_state.messages.append({
-            "role": "assistant", 
-            "content": assistant_response,
-            "timestamp": timestamp
-        })
-        
-        # Reset processing state
-        st.session_state.is_processing = False
-        st.rerun()  # Update UI with response
 
 # Custom header with BRIGHT branding
 st.markdown("""
@@ -530,11 +511,33 @@ with st.container():
                 </div>
             </div>
         """, unsafe_allow_html=True)
-        
-        # Get response asynchronously
-        get_response_async()
     
     st.markdown('</div>', unsafe_allow_html=True)
+
+# Process assistant response if needed
+if st.session_state.is_processing and len(st.session_state.messages) > 0:
+    # Get the last user message
+    last_user_message = None
+    for msg in reversed(st.session_state.messages):
+        if msg["role"] == "user":
+            last_user_message = msg["content"]
+            break
+    
+    if last_user_message:
+        # Get assistant response
+        assistant_response = get_assistant_response(last_user_message)
+        
+        # Add assistant response to chat
+        timestamp = datetime.now().strftime("%H:%M")
+        st.session_state.messages.append({
+            "role": "assistant", 
+            "content": assistant_response,
+            "timestamp": timestamp
+        })
+        
+        # Reset processing state
+        st.session_state.is_processing = False
+        st.rerun()
 
 # Input section
 st.markdown("---")
