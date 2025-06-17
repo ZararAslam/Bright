@@ -119,67 +119,56 @@ st.markdown("""
     }
     
     .bot-bubble {
-        background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-        color: #ffffff;
+        background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7);
+        color: #000000;
         padding: 15px 20px;
         border-radius: 20px 20px 20px 6px;
         max-width: 70%;
         min-width: 80px;
         word-wrap: break-word;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 4px 16px rgba(253, 165, 3, 0.3);
         font-size: 15px;
         line-height: 1.5;
-        border: 1px solid rgba(253, 165, 3, 0.2);
+        border: 1px solid rgba(253, 165, 3, 0.5);
         display: inline-block;
         text-align: left;
         white-space: pre-wrap;
         vertical-align: top;
         position: relative;
+        font-weight: 500;
     }
     
-    /* BRIGHT gradient border effect for bot messages */
+    /* Remove gradient border effect for bot messages */
     .bot-bubble::before {
-        content: '';
-        position: absolute;
-        inset: -1px;
-        padding: 1px;
-        background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7);
-        border-radius: inherit;
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask-composite: exclude;
-        -webkit-mask-composite: xor;
-        z-index: -1;
+        display: none;
     }
     
     /* Markdown styling within bot bubbles */
     .bot-bubble h1, .bot-bubble h2, .bot-bubble h3 {
         margin-top: 12px;
         margin-bottom: 8px;
-        background: linear-gradient(90deg, #fda503, #f737d8);
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #000000;
         font-weight: 600;
     }
     
     .bot-bubble p {
         margin: 8px 0;
-        color: #ffffff;
+        color: #000000;
     }
     
     .bot-bubble ul, .bot-bubble ol {
         margin: 12px 0;
         padding-left: 20px;
-        color: #ffffff;
+        color: #000000;
     }
     
     .bot-bubble li {
         margin: 4px 0;
-        color: #ffffff;
+        color: #000000;
     }
     
     .bot-bubble code {
-        background: linear-gradient(135deg, #fdbc2c, #fda503);
+        background-color: rgba(0, 0, 0, 0.2);
         color: #000000;
         padding: 3px 6px;
         border-radius: 6px;
@@ -189,25 +178,26 @@ st.markdown("""
     }
     
     .bot-bubble pre {
-        background-color: #0a0a0a;
-        border: 1px solid rgba(253, 165, 3, 0.3);
+        background-color: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(0, 0, 0, 0.3);
         padding: 12px;
         border-radius: 8px;
-        border-left: 4px solid #fdbc2c;
+        border-left: 4px solid #000000;
         overflow-x: auto;
         margin: 12px 0;
-        color: #ffffff;
+        color: #000000;
     }
     
     .bot-bubble pre code {
         background: none;
-        color: #ffffff;
+        color: #000000;
         padding: 0;
     }
     
     /* Remove extra spacing from bot bubble content */
     .bot-bubble * {
         margin-bottom: 0;
+        color: #000000;
     }
     
     .bot-bubble *:last-child {
@@ -449,13 +439,13 @@ def get_assistant_response(user_message):
     except Exception as e:
         return f"Sorry, I encountered an error: {str(e)}"
 
-# Function to send message
+# Function to send message (WhatsApp-style instant display)
 def send_message():
     user_input = st.session_state.user_input.strip()
     if not user_input or st.session_state.is_processing:
         return
     
-    # Add user message to chat
+    # Add user message to chat immediately
     timestamp = datetime.now().strftime("%H:%M")
     st.session_state.messages.append({
         "role": "user", 
@@ -463,23 +453,29 @@ def send_message():
         "timestamp": timestamp
     })
     
-    # Set processing state
+    # Set processing state and clear input
     st.session_state.is_processing = True
     st.session_state.user_input = ""
-    
-    # Get assistant response
-    assistant_response = get_assistant_response(user_input)
-    
-    # Add assistant response to chat
-    timestamp = datetime.now().strftime("%H:%M")
-    st.session_state.messages.append({
-        "role": "assistant", 
-        "content": assistant_response,
-        "timestamp": timestamp
-    })
-    
-    # Reset processing state
-    st.session_state.is_processing = False
+    st.rerun()  # Force immediate rerun to show user message and typing indicator
+
+def get_response_async():
+    """Get response in background and update UI"""
+    if st.session_state.is_processing:
+        # Get assistant response
+        latest_message = st.session_state.messages[-1]['content']
+        assistant_response = get_assistant_response(latest_message)
+        
+        # Add assistant response to chat
+        timestamp = datetime.now().strftime("%H:%M")
+        st.session_state.messages.append({
+            "role": "assistant", 
+            "content": assistant_response,
+            "timestamp": timestamp
+        })
+        
+        # Reset processing state
+        st.session_state.is_processing = False
+        st.rerun()  # Update UI with response
 
 # Custom header with BRIGHT branding
 st.markdown("""
@@ -487,32 +483,13 @@ st.markdown("""
         BRIGHT SPORTS AI
     </div>
     <div class="bright-subheader">
-        Your AI-powered sports equipment assistant • Available 24/7
+        Your AI-powered BRIGHT assistant • Available 24/7
     </div>
 """, unsafe_allow_html=True)
 
 # Chat messages container
 with st.container():
     st.markdown('<div class="chat-messages">', unsafe_allow_html=True)
-    
-    # Display welcome message if no chat history
-    if not st.session_state.messages:
-        st.markdown(f"""
-            <div class="message-container bot-container">
-                <div>
-                    <div class="bot-bubble">
-                        🌟 <strong>Welcome to BRIGHT Sports AI Support!</strong><br><br>
-                        I'm here to help you with:<br>
-                        • Product information about our holographic sports equipment<br>
-                        • Order status and shipping details<br>
-                        • Technical specifications and features<br>
-                        • Returns and warranty support<br><br>
-                        How can I light up your game today?
-                    </div>
-                    <div class="timestamp">{datetime.now().strftime("%H:%M")}</div>
-                </div>
-            </div>
-        """, unsafe_allow_html=True)
     
     # Display chat history
     for i, msg in enumerate(st.session_state.messages):
@@ -549,10 +526,13 @@ with st.container():
         st.markdown("""
             <div class="typing-indicator">
                 <div class="typing-bubble">
-                    🔥 BRIGHT AI is thinking...
+                    🔥 BRIGHT is typing...
                 </div>
             </div>
         """, unsafe_allow_html=True)
+        
+        # Get response asynchronously
+        get_response_async()
     
     st.markdown('</div>', unsafe_allow_html=True)
 
