@@ -52,15 +52,12 @@ st.markdown("""
         background-color: #000000;
     }
     
-    /* Header styling with BRIGHT gradient */
+    /* Header styling with white text */
     .bright-header {
         text-align: center;
         margin-bottom: 30px;
         padding: 20px;
-        background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7);
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #ffffff;
         font-size: 2.5rem;
         font-weight: 700;
         text-transform: uppercase;
@@ -487,7 +484,7 @@ def send_message():
 # Custom header with BRIGHT branding
 st.markdown("""
     <div class="bright-header">
-        ⚽ BRIGHT SPORTS AI
+        BRIGHT SPORTS AI
     </div>
     <div class="bright-subheader">
         Your AI-powered sports equipment assistant • Available 24/7
