@@ -129,8 +129,8 @@ st.markdown("""
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
         font-size: 15px !important;
         line-height: 1.5 !important;
-        border: 2px solid transparent !important;
-        background-clip: padding-box !important;
+        border: 2px solid !important;
+        border-image: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7) 1 !important;
         display: inline-block !important;
         text-align: left !important;
         white-space: pre-wrap !important;
@@ -139,17 +139,16 @@ st.markdown("""
         font-weight: 500 !important;
     }
     
-    /* BRIGHT gradient border effect for bot messages */
+    /* Alternative gradient border method */
     .bot-bubble::before {
         content: '' !important;
         position: absolute !important;
-        inset: -2px !important;
-        padding: 2px !important;
+        top: -2px !important;
+        left: -2px !important;
+        right: -2px !important;
+        bottom: -2px !important;
         background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7) !important;
-        border-radius: inherit !important;
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
-        mask-composite: exclude !important;
-        -webkit-mask-composite: xor !important;
+        border-radius: 20px 20px 20px 6px !important;
         z-index: -1 !important;
     }
     
