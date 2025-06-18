@@ -519,12 +519,10 @@ def send_message():
     if not user_input or st.session_state.is_processing:
         return
     
-    # Add user message to chat immediately with server timestamp
-    timestamp = datetime.now().strftime("%H:%M")
+    # Add user message to chat immediately
     st.session_state.messages.append({
         "role": "user", 
-        "content": user_input,
-        "timestamp": timestamp
+        "content": user_input
     })
     
     # Set processing state and clear input immediately
@@ -553,7 +551,6 @@ with st.container():
                 <div class="message-container user-container">
                     <div>
                         <div class="user-bubble">{msg['content']}</div>
-                        <div class="timestamp" style="text-align: right;">{msg.get('timestamp', '')}</div>
                     </div>
                 </div>
             """, unsafe_allow_html=True)
@@ -571,7 +568,6 @@ with st.container():
                 <div class="message-container bot-container">
                     <div>
                         <div class="bot-bubble">{html_content}</div>
-                        <div class="timestamp">{msg.get('timestamp', '')}</div>
                     </div>
                 </div>
             """, unsafe_allow_html=True)
@@ -601,12 +597,10 @@ if st.session_state.is_processing and len(st.session_state.messages) > 0:
         # Get assistant response
         assistant_response = get_assistant_response(last_user_message)
         
-        # Add assistant response to chat with server timestamp
-        timestamp = datetime.now().strftime("%H:%M")
+        # Add assistant response to chat
         st.session_state.messages.append({
             "role": "assistant", 
-            "content": assistant_response,
-            "timestamp": timestamp
+            "content": assistant_response
         })
         
         # Reset processing state
