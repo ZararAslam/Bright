@@ -7,7 +7,7 @@ from datetime import datetime
 # Page configuration
 st.set_page_config(
     page_title="BRIGHT Sports AI Support",
-    page_icon="",
+    page_icon="⚽",
     layout="wide"
 )
 
