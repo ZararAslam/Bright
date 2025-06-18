@@ -632,7 +632,7 @@ st.markdown("""
 # Footer with BRIGHT branding
 st.markdown("""
 <div class="bright-footer">
-    Powered by <strong>ALTORIX</strong> • Built for athletes who light up the night
+    Powered by <strong>ALTORIX</strong> 
 </div>
 """, unsafe_allow_html=True)
 
