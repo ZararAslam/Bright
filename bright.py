@@ -25,57 +25,30 @@ st.markdown("""
     /* Import modern font */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     
-    /* Hide Streamlit default elements - More aggressive approach */
+    /* Hide Streamlit default elements - Safe approach */
     #MainMenu {visibility: hidden !important;}
     footer {visibility: hidden !important;}
     header {visibility: hidden !important;}
     
-    /* Hide all possible Streamlit mobile navigation elements */
+    /* Hide Streamlit mobile navigation - targeted approach */
     .stActionButton {display: none !important;}
     div[data-testid="stActionButtonIcon"] {display: none !important;}
     .stDeployButton {display: none !important;}
     div[data-testid="stDeployButton"] {display: none !important;}
     div[data-testid="stBottomBlockContainer"] {display: none !important;}
     div[data-testid="stToolbar"] {display: none !important;}
-    .stFloatingActionButton {display: none !important;}
-    button[data-testid="baseButton-header"] {display: none !important;}
     
-    /* Target mobile navigation by class patterns */
-    [class*="stActionButton"] {display: none !important;}
-    [class*="ActionButton"] {display: none !important;}
-    [class*="stDeploy"] {display: none !important;}
-    [class*="Deploy"] {display: none !important;}
-    [class*="stToolbar"] {display: none !important;}
-    [class*="Toolbar"] {display: none !important;}
-    
-    /* Hide by common mobile navigation selectors */
-    .css-1d391kg {display: none !important;}
-    .css-1rs6os {display: none !important;}
-    .css-17eq0hr {display: none !important;}
-    .css-1v0mbdj {display: none !important;}
-    .css-165x3hx {display: none !important;}
-    
-    /* Mobile specific hiding - more aggressive */
+    /* Mobile specific - safe selectors only */
     @media (max-width: 768px) {
-        /* Hide any buttons with arrow or home icons */
-        button[aria-label*="Navigate"] {display: none !important;}
-        button[aria-label*="Home"] {display: none !important;}
-        button[aria-label*="Back"] {display: none !important;}
-        button[aria-label*="Forward"] {display: none !important;}
+        .stActionButton {display: none !important;}
+        div[data-testid="stActionButtonIcon"] {display: none !important;}
+        .stDeployButton {display: none !important;}
+        div[data-testid="stDeployButton"] {display: none !important;}
         
-        /* Hide by SVG content (common for nav icons) */
-        button:has(svg) {display: none !important;}
-        
-        /* Hide any fixed position elements at bottom (except our input) */
-        div[style*="position: fixed"][style*="bottom"] {display: none !important;}
-        
-        /* Override any bottom positioned elements */
-        .stApp > div:last-child {display: none !important;}
-        
-        /* Nuclear option - hide all buttons except in our input area */
-        button:not(.stTextInput button):not([data-testid="textInputSubmitButton"]) {
-            display: none !important;
-        }
+        /* Try to hide the navigation bar at bottom */
+        .css-1d391kg {display: none !important;}
+        .css-1rs6os {display: none !important;}
+        .css-17eq0hr {display: none !important;}
     }
     
     /* Global styling - black background like BRIGHT website */
@@ -707,78 +680,10 @@ if st.session_state.messages or st.session_state.is_processing:
             }
         }
         
-        // Function to aggressively hide Streamlit navigation elements
-        function hideStreamlitNav() {
-            // Hide navigation buttons by common patterns
-            const selectors = [
-                'button[data-testid*="stActionButton"]',
-                'button[aria-label*="Navigate"]',
-                'button[aria-label*="Back"]',
-                'button[aria-label*="Forward"]',
-                'button[aria-label*="Home"]',
-                'div[data-testid="stToolbar"]',
-                'div[data-testid="stBottomBlockContainer"]',
-                '.stActionButton',
-                '.stDeployButton',
-                // Look for buttons with common navigation icons
-                'button:has(svg[viewBox="0 0 24 24"])',
-                // Hide any fixed positioned divs at bottom except our input
-                'div[style*="position: fixed"][style*="bottom: 0"]:not(.stTextInput)'
-            ];
-            
-            selectors.forEach(selector => {
-                try {
-                    const elements = document.querySelectorAll(selector);
-                    elements.forEach(el => {
-                        if (el && !el.closest('.stTextInput')) {
-                            el.style.display = 'none';
-                            el.style.visibility = 'hidden';
-                            el.remove();
-                        }
-                    });
-                } catch (e) {
-                    // Ignore selector errors
-                }
-            });
-            
-            // Remove any buttons at the bottom of the page
-            const allButtons = document.querySelectorAll('button');
-            allButtons.forEach(button => {
-                const rect = button.getBoundingClientRect();
-                const isAtBottom = rect.bottom > window.innerHeight - 100;
-                const isNavButton = button.querySelector('svg') || 
-                                  button.getAttribute('aria-label')?.includes('Navigate') ||
-                                  button.getAttribute('aria-label')?.includes('Back') ||
-                                  button.getAttribute('aria-label')?.includes('Forward') ||
-                                  button.getAttribute('aria-label')?.includes('Home');
-                
-                if (isAtBottom && isNavButton && !button.closest('.stTextInput')) {
-                    button.style.display = 'none';
-                    button.remove();
-                }
-            });
-        }
-        
         // Execute scroll function
         smartScroll();
         
-        // Execute nav hiding function
-        hideStreamlitNav();
-        
         // Execute again after content loads
         setTimeout(smartScroll, 300);
-        setTimeout(hideStreamlitNav, 300);
-        setTimeout(hideStreamlitNav, 1000);
-        setTimeout(hideStreamlitNav, 2000);
-        
-        // Set up observer to continuously remove nav elements
-        const observer = new MutationObserver(function(mutations) {
-            hideStreamlitNav();
-        });
-        
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
         </script>
     """, unsafe_allow_html=True)
