@@ -459,6 +459,7 @@ def send_message():
     st.session_state.user_input = ""
 
 # Custom header with BRIGHT branding
+st.markdown("🔥 **NEW VERSION LOADED - V2.0** 🔥")  # TEMPORARY TEST MARKER
 st.markdown("""
     <div class="bright-header">
         BRIGHT SPORTS AI
