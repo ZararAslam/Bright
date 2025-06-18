@@ -30,6 +30,36 @@ st.markdown("""
     footer {visibility: hidden;}
     header {visibility: hidden;}
     
+    /* Hide Streamlit mobile navigation buttons */
+    .stActionButton {display: none !important;}
+    div[data-testid="stActionButtonIcon"] {display: none !important;}
+    .stDeployButton {display: none !important;}
+    div[data-testid="stDeployButton"] {display: none !important;}
+    
+    /* Hide bottom toolbar on mobile */
+    div[data-testid="stBottomBlockContainer"] {display: none !important;}
+    div[data-testid="stToolbar"] {display: none !important;}
+    
+    /* Hide any floating action buttons */
+    .stFloatingActionButton {display: none !important;}
+    
+    /* Hide Streamlit's mobile menu */
+    button[data-testid="baseButton-header"] {display: none !important;}
+    
+    /* Additional mobile-specific hiding */
+    @media (max-width: 768px) {
+        .stActionButton {display: none !important;}
+        div[data-testid="stActionButtonIcon"] {display: none !important;}
+        .stDeployButton {display: none !important;}
+        button[kind="primaryFormSubmit"] {display: none !important;}
+        button[kind="secondary"] {display: none !important;}
+        
+        /* Hide any bottom navigation */
+        .css-1d391kg {display: none !important;}
+        .css-1rs6os {display: none !important;}
+        .css-17eq0hr {display: none !important;}
+    }
+    
     /* Global styling - black background like BRIGHT website */
     .stApp {
         background-color: #000000 !important;
