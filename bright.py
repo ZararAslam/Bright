@@ -471,10 +471,8 @@ def send_message():
     
     # Set processing state and clear input immediately
     st.session_state.is_processing = True
+    # Clear the input by setting it to empty string
     st.session_state.user_input = ""
-    
-    # Force immediate rerun to show user message and disable input
-    st.rerun()
 
 # Custom header with BRIGHT branding
 st.markdown("""
