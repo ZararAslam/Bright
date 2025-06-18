@@ -636,48 +636,106 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Auto-scroll to bottom for new messages
+# Auto-scroll to bottom for new messages - Enhanced mobile support
 if st.session_state.messages or st.session_state.is_processing:
-    st.markdown("""
+    # Create a unique key based on message count to force re-execution
+    message_count = len(st.session_state.messages)
+    st.markdown(f"""
         <script>
-        function smartScroll() {
-            // Only scroll the chat messages container, not the whole page
-            var chatMessages = document.querySelector('.chat-messages');
-            if (chatMessages) {
+        // Force scroll to bottom - multiple reliable methods
+        function forceScrollToBottom() {{
+            // Method 1: Scroll the chat messages container
+            const chatMessages = document.querySelector('.chat-messages');
+            if (chatMessages) {{
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+                chatMessages.scrollTo(0, chatMessages.scrollHeight);
+            }}
             
-            // On mobile, keep messages visible above the fixed input
-            if (window.innerWidth <= 768) {
-                // Don't scroll the page on mobile, just the chat container
-                var lastMessage = document.querySelector('.message-container:last-child');
-                if (lastMessage && chatMessages) {
-                    // Scroll within the chat container to show the latest message
-                    var containerBottom = chatMessages.offsetTop + chatMessages.offsetHeight;
-                    var messageBottom = lastMessage.offsetTop + lastMessage.offsetHeight;
+            // Method 2: Scroll to the last message element
+            const lastMessage = document.querySelector('.message-container:last-child');
+            if (lastMessage) {{
+                lastMessage.scrollIntoView({{ 
+                    behavior: 'auto',  // Use 'auto' instead of 'smooth' for immediate effect
+                    block: 'end',
+                    inline: 'nearest'
+                }});
+            }}
+            
+            // Method 3: Mobile-specific - scroll the main window if needed
+            if (window.innerWidth <= 768) {{
+                // Get the input box position and scroll to it
+                const inputBox = document.querySelector('.stTextInput');
+                if (inputBox) {{
+                    const inputRect = inputBox.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
                     
-                    if (messageBottom > containerBottom) {
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }
-                }
-            } else {
-                // On desktop, gently scroll to show the latest message
-                setTimeout(function() {
-                    var lastMessage = document.querySelector('.message-container:last-child');
-                    if (lastMessage) {
-                        lastMessage.scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'nearest'
-                        });
-                    }
-                }, 100);
-            }
-        }
+                    // If input box is not visible, scroll to make it visible
+                    if (inputRect.top > windowHeight || inputRect.bottom < 0) {{
+                        inputBox.scrollIntoView({{ 
+                            behavior: 'auto',
+                            block: 'end'
+                        }});
+                    }}
+                }}
+                
+                // Also try scrolling to bottom of page
+                window.scrollTo({{
+                    top: document.body.scrollHeight,
+                    behavior: 'auto'
+                }});
+            }}
+        }}
         
-        // Execute scroll function
-        smartScroll();
+        // Execute immediately
+        forceScrollToBottom();
         
-        // Execute again after content loads
-        setTimeout(smartScroll, 300);
+        // Execute multiple times with delays to catch dynamic content
+        setTimeout(forceScrollToBottom, 100);
+        setTimeout(forceScrollToBottom, 300);
+        setTimeout(forceScrollToBottom, 500);
+        setTimeout(forceScrollToBottom, 1000);
+        
+        // Set up intersection observer to detect new messages
+        const observer = new IntersectionObserver((entries) => {{
+            entries.forEach(entry => {{
+                if (entry.isIntersecting && entry.target.classList.contains('message-container')) {{
+                    // New message detected, scroll to bottom
+                    setTimeout(forceScrollToBottom, 50);
+                }}
+            }});
+        }}, {{ threshold: 0.1 }});
+        
+        // Observe all message containers
+        document.querySelectorAll('.message-container').forEach(msg => {{
+            observer.observe(msg);
+        }});
+        
+        // Also set up a mutation observer for new DOM elements
+        const mutationObserver = new MutationObserver((mutations) => {{
+            let newMessagesAdded = false;
+            mutations.forEach(mutation => {{
+                mutation.addedNodes.forEach(node => {{
+                    if (node.nodeType === 1 && (
+                        node.classList?.contains('message-container') || 
+                        node.querySelector?.('.message-container')
+                    )) {{
+                        newMessagesAdded = true;
+                    }}
+                }});
+            }});
+            
+            if (newMessagesAdded) {{
+                setTimeout(forceScrollToBottom, 50);
+            }}
+        }});
+        
+        // Start observing the chat area for new messages
+        const chatArea = document.querySelector('.chat-messages') || document.body;
+        mutationObserver.observe(chatArea, {{
+            childList: true,
+            subtree: true
+        }});
+        
+        // Message count: {message_count} - This comment forces re-execution when messages change
         </script>
     """, unsafe_allow_html=True)
