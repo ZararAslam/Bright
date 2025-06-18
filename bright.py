@@ -211,6 +211,12 @@ st.markdown("""
     }
     
     /* Input styling with BRIGHT luminous border */
+    .stTextInput > div > div {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    
     .stTextInput > div > div > input {
         border-radius: 25px !important;
         border: 2px solid transparent !important;
@@ -220,12 +226,15 @@ st.markdown("""
         font-size: 15px !important;
         color: #ffffff !important;
         transition: all 0.3s ease !important;
+        outline: none !important;
+        box-shadow: none !important;
     }
     
     .stTextInput > div > div > input:focus {
         background: linear-gradient(#2d2d2d, #2d2d2d) padding-box, 
                     linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7) border-box !important;
         box-shadow: 0 0 20px rgba(253, 165, 3, 0.4) !important;
+        outline: none !important;
     }
     
     .stTextInput > div > div > input::placeholder {
