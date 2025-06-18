@@ -519,12 +519,11 @@ def send_message():
     if not user_input or st.session_state.is_processing:
         return
     
-    # Add user message to chat immediately
-    timestamp = datetime.now().strftime("%H:%M")
+    # Add user message to chat immediately (timestamp will be added by JavaScript)
     st.session_state.messages.append({
         "role": "user", 
         "content": user_input,
-        "timestamp": timestamp
+        "timestamp": "local_time"  # Placeholder for JavaScript to replace
     })
     
     # Set processing state and clear input immediately
@@ -601,12 +600,11 @@ if st.session_state.is_processing and len(st.session_state.messages) > 0:
         # Get assistant response
         assistant_response = get_assistant_response(last_user_message)
         
-        # Add assistant response to chat
-        timestamp = datetime.now().strftime("%H:%M")
+        # Add assistant response to chat (timestamp will be added by JavaScript)
         st.session_state.messages.append({
             "role": "assistant", 
             "content": assistant_response,
-            "timestamp": timestamp
+            "timestamp": "local_time"  # Placeholder for JavaScript to replace
         })
         
         # Reset processing state
@@ -646,6 +644,24 @@ st.markdown("""
 if st.session_state.messages or st.session_state.is_processing:
     st.markdown("""
         <script>
+        function updateLocalTimestamps() {
+            // Get current local time
+            const now = new Date();
+            const localTime = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false 
+            });
+            
+            // Update all timestamps that say "local_time"
+            const timestamps = document.querySelectorAll('.timestamp');
+            timestamps.forEach(timestamp => {
+                if (timestamp.textContent.includes('local_time')) {
+                    timestamp.textContent = localTime;
+                }
+            });
+        }
+        
         function smartScroll() {
             // Only scroll the chat messages container, not the whole page
             var chatMessages = document.querySelector('.chat-messages');
@@ -680,10 +696,16 @@ if st.session_state.messages or st.session_state.is_processing:
             }
         }
         
+        // Update timestamps first
+        updateLocalTimestamps();
+        
         // Execute scroll function
         smartScroll();
         
         // Execute again after content loads
-        setTimeout(smartScroll, 300);
+        setTimeout(function() {
+            updateLocalTimestamps();
+            smartScroll();
+        }, 300);
         </script>
     """, unsafe_allow_html=True)
