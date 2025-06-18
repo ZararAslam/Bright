@@ -121,7 +121,7 @@ st.markdown("""
     .bot-bubble {
         background: linear-gradient(135deg, #1a1a1a, #2d2d2d) !important;
         color: #ffffff !important;
-        padding: 17px 22px !important;
+        padding: 15px 20px !important;
         border-radius: 20px 20px 20px 6px !important;
         max-width: 70% !important;
         min-width: 80px !important;
@@ -129,31 +129,13 @@ st.markdown("""
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
         font-size: 15px !important;
         line-height: 1.5 !important;
-        border: 2px solid transparent !important;
-        background-clip: padding-box !important;
+        border: 1px solid rgba(253, 165, 3, 0.2) !important;
         display: inline-block !important;
         text-align: left !important;
         white-space: pre-wrap !important;
         vertical-align: top !important;
         position: relative !important;
         font-weight: 500 !important;
-    }
-    
-    /* Proper gradient border using box-shadow */
-    .bot-bubble::before {
-        content: '' !important;
-        position: absolute !important;
-        top: -2px !important;
-        left: -2px !important;
-        right: -2px !important;
-        bottom: -2px !important;
-        background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7) !important;
-        border-radius: 22px 22px 22px 8px !important;
-        z-index: -1 !important;
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
-        mask-composite: xor !important;
-        -webkit-mask-composite: xor !important;
-        padding: 2px !important;
     }
     
     /* Markdown styling within bot bubbles */
@@ -228,21 +210,22 @@ st.markdown("""
         opacity: 0.8 !important;
     }
     
-    /* Input styling with BRIGHT theme */
+    /* Input styling with BRIGHT luminous border */
     .stTextInput > div > div > input {
         border-radius: 25px !important;
-        border: 2px solid rgba(253, 165, 3, 0.3) !important;
+        border: 2px solid transparent !important;
+        background: linear-gradient(#1a1a1a, #1a1a1a) padding-box, 
+                    linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7) border-box !important;
         padding: 15px 25px !important;
         font-size: 15px !important;
-        background-color: #1a1a1a !important;
         color: #ffffff !important;
         transition: all 0.3s ease !important;
     }
     
     .stTextInput > div > div > input:focus {
-        border: 2px solid #fdbc2c !important;
-        box-shadow: 0 0 0 0.2rem rgba(253, 188, 44, 0.25) !important;
-        background-color: #2d2d2d !important;
+        background: linear-gradient(#2d2d2d, #2d2d2d) padding-box, 
+                    linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7) border-box !important;
+        box-shadow: 0 0 20px rgba(253, 165, 3, 0.4) !important;
     }
     
     .stTextInput > div > div > input::placeholder {
