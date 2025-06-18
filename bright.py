@@ -519,10 +519,12 @@ def send_message():
     if not user_input or st.session_state.is_processing:
         return
     
-    # Add user message to chat immediately
+    # Add user message to chat immediately with server timestamp
+    timestamp = datetime.now().strftime("%H:%M")
     st.session_state.messages.append({
         "role": "user", 
-        "content": user_input
+        "content": user_input,
+        "timestamp": timestamp
     })
     
     # Set processing state and clear input immediately
@@ -551,9 +553,7 @@ with st.container():
                 <div class="message-container user-container">
                     <div>
                         <div class="user-bubble">{msg['content']}</div>
-                        <div class="timestamp" style="text-align: right;" id="timestamp-user-{i}">
-                            Loading...
-                        </div>
+                        <div class="timestamp" style="text-align: right;">{msg.get('timestamp', '')}</div>
                     </div>
                 </div>
             """, unsafe_allow_html=True)
@@ -571,9 +571,7 @@ with st.container():
                 <div class="message-container bot-container">
                     <div>
                         <div class="bot-bubble">{html_content}</div>
-                        <div class="timestamp" id="timestamp-bot-{i}">
-                            Loading...
-                        </div>
+                        <div class="timestamp">{msg.get('timestamp', '')}</div>
                     </div>
                 </div>
             """, unsafe_allow_html=True)
@@ -603,10 +601,12 @@ if st.session_state.is_processing and len(st.session_state.messages) > 0:
         # Get assistant response
         assistant_response = get_assistant_response(last_user_message)
         
-        # Add assistant response to chat
+        # Add assistant response to chat with server timestamp
+        timestamp = datetime.now().strftime("%H:%M")
         st.session_state.messages.append({
             "role": "assistant", 
-            "content": assistant_response
+            "content": assistant_response,
+            "timestamp": timestamp
         })
         
         # Reset processing state
@@ -644,73 +644,46 @@ st.markdown("""
 
 # Auto-scroll to bottom for new messages
 if st.session_state.messages or st.session_state.is_processing:
-    st.markdown(f"""
+    st.markdown("""
         <script>
-        function updateAllTimestamps() {{
-            // Get current local time
-            const now = new Date();
-            const localTime = now.toLocaleTimeString('en-US', {{ 
-                hour: '2-digit', 
-                minute: '2-digit',
-                hour12: false 
-            }});
-            
-            // Update all timestamp elements
-            const timestamps = document.querySelectorAll('[id^="timestamp-"]');
-            timestamps.forEach(timestamp => {{
-                if (timestamp.textContent === 'Loading...') {{
-                    timestamp.textContent = localTime;
-                }}
-            }});
-        }}
-        
-        function smartScroll() {{
+        function smartScroll() {
             // Only scroll the chat messages container, not the whole page
             var chatMessages = document.querySelector('.chat-messages');
-            if (chatMessages) {{
+            if (chatMessages) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-            }}
+            }
             
             // On mobile, keep messages visible above the fixed input
-            if (window.innerWidth <= 768) {{
+            if (window.innerWidth <= 768) {
                 // Don't scroll the page on mobile, just the chat container
                 var lastMessage = document.querySelector('.message-container:last-child');
-                if (lastMessage && chatMessages) {{
+                if (lastMessage && chatMessages) {
                     // Scroll within the chat container to show the latest message
                     var containerBottom = chatMessages.offsetTop + chatMessages.offsetHeight;
                     var messageBottom = lastMessage.offsetTop + lastMessage.offsetHeight;
                     
-                    if (messageBottom > containerBottom) {{
+                    if (messageBottom > containerBottom) {
                         chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }}
-                }}
-            }} else {{
+                    }
+                }
+            } else {
                 // On desktop, gently scroll to show the latest message
-                setTimeout(function() {{
+                setTimeout(function() {
                     var lastMessage = document.querySelector('.message-container:last-child');
-                    if (lastMessage) {{
-                        lastMessage.scrollIntoView({{ 
+                    if (lastMessage) {
+                        lastMessage.scrollIntoView({ 
                             behavior: 'smooth', 
                             block: 'nearest'
-                        }});
-                    }}
-                }}, 100);
-            }}
-        }}
-        
-        // Update timestamps first
-        updateAllTimestamps();
+                        });
+                    }
+                }, 100);
+            }
+        }
         
         // Execute scroll function
         smartScroll();
         
         // Execute again after content loads
-        setTimeout(function() {{
-            updateAllTimestamps();
-            smartScroll();
-        }}, 500);
-        
-        // And once more to be sure
-        setTimeout(updateAllTimestamps, 1000);
+        setTimeout(smartScroll, 300);
         </script>
     """, unsafe_allow_html=True)
