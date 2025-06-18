@@ -391,23 +391,39 @@ st.markdown("""
         
         /* Mobile chat messages container */
         .chat-messages {
-            max-height: 70vh !important;
-            margin-bottom: 15px !important;
+            max-height: 60vh !important;
+            margin-bottom: 20px !important;
+            padding-bottom: 20px !important;
         }
         
-        /* Mobile input styling */
+        /* Mobile input styling - fixed positioning above keyboard */
+        .stTextInput {
+            position: fixed !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 1000 !important;
+            background-color: #000000 !important;
+            padding: 15px !important;
+            border-top: 1px solid rgba(253, 165, 3, 0.2) !important;
+        }
+        
         .stTextInput > div > div > input {
             font-size: 16px !important; /* Prevents zoom on iOS */
             padding: 12px 20px !important;
+            width: 100% !important;
         }
         
-        /* Ensure input is always visible on mobile */
+        /* Add bottom padding to main content to prevent overlap */
+        .main .block-container {
+            padding-bottom: 100px !important;
+        }
+    }
+    
+    /* Desktop specific styles */
+    @media (min-width: 769px) {
         .stTextInput {
-            position: sticky !important;
-            bottom: 0 !important;
-            z-index: 100 !important;
-            background-color: #000000 !important;
-            padding: 10px 0 !important;
+            position: relative !important;
         }
     }
     </style>
@@ -605,41 +621,48 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Auto-scroll to bottom and mobile-friendly scrolling
+# Auto-scroll to bottom for new messages
 if st.session_state.messages or st.session_state.is_processing:
     st.markdown("""
         <script>
-        function scrollToBottom() {
-            // Scroll the chat messages container to bottom
+        function smartScroll() {
+            // Only scroll the chat messages container, not the whole page
             var chatMessages = document.querySelector('.chat-messages');
             if (chatMessages) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
             
-            // Scroll the entire page to show input box (mobile-friendly)
-            setTimeout(function() {
-                var inputElement = document.querySelector('.stTextInput');
-                if (inputElement) {
-                    inputElement.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'end',
-                        inline: 'nearest'
-                    });
+            // On mobile, keep messages visible above the fixed input
+            if (window.innerWidth <= 768) {
+                // Don't scroll the page on mobile, just the chat container
+                var lastMessage = document.querySelector('.message-container:last-child');
+                if (lastMessage && chatMessages) {
+                    // Scroll within the chat container to show the latest message
+                    var containerBottom = chatMessages.offsetTop + chatMessages.offsetHeight;
+                    var messageBottom = lastMessage.offsetTop + lastMessage.offsetHeight;
+                    
+                    if (messageBottom > containerBottom) {
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
                 }
-                
-                // Alternative: scroll to bottom of page
-                window.scrollTo({
-                    top: document.body.scrollHeight,
-                    behavior: 'smooth'
-                });
-            }, 200);
+            } else {
+                // On desktop, gently scroll to show the latest message
+                setTimeout(function() {
+                    var lastMessage = document.querySelector('.message-container:last-child');
+                    if (lastMessage) {
+                        lastMessage.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'nearest'
+                        });
+                    }
+                }, 100);
+            }
         }
         
-        // Execute immediately
-        scrollToBottom();
+        // Execute scroll function
+        smartScroll();
         
-        // Also execute after a delay to catch dynamic content
-        setTimeout(scrollToBottom, 500);
-        setTimeout(scrollToBottom, 1000);
+        // Execute again after content loads
+        setTimeout(smartScroll, 300);
         </script>
     """, unsafe_allow_html=True)
