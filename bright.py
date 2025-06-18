@@ -242,9 +242,11 @@ st.markdown("""
     }
     
     .stTextInput > div > div > input:disabled {
-        background-color: #0a0a0a !important;
-        border-color: rgba(253, 165, 3, 0.1) !important;
+        background: linear-gradient(#0a0a0a, #0a0a0a) padding-box, 
+                    linear-gradient(90deg, rgba(253, 165, 3, 0.3) -10%, rgba(247, 55, 216, 0.3) 20%, rgba(14, 96, 255, 0.3) 80%, rgba(7, 194, 247, 0.3)) border-box !important;
         opacity: 0.6 !important;
+        cursor: not-allowed !important;
+        color: #888 !important;
     }
     
     /* Spinner styling */
@@ -467,9 +469,12 @@ def send_message():
         "timestamp": timestamp
     })
     
-    # Set processing state and clear input
+    # Set processing state and clear input immediately
     st.session_state.is_processing = True
     st.session_state.user_input = ""
+    
+    # Force immediate rerun to show user message and disable input
+    st.rerun()
 
 # Custom header with BRIGHT branding
 st.markdown("""
