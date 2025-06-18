@@ -519,11 +519,10 @@ def send_message():
     if not user_input or st.session_state.is_processing:
         return
     
-    # Add user message to chat immediately (timestamp will be added by JavaScript)
+    # Add user message to chat immediately
     st.session_state.messages.append({
         "role": "user", 
-        "content": user_input,
-        "timestamp": "local_time"  # Placeholder for JavaScript to replace
+        "content": user_input
     })
     
     # Set processing state and clear input immediately
@@ -548,11 +547,16 @@ with st.container():
     # Display chat history
     for i, msg in enumerate(st.session_state.messages):
         if msg["role"] == "user":
+            # Generate local timestamp with JavaScript
             st.markdown(f"""
                 <div class="message-container user-container">
                     <div>
                         <div class="user-bubble">{msg['content']}</div>
-                        <div class="timestamp" style="text-align: right;">{msg.get('timestamp', '')}</div>
+                        <div class="timestamp" style="text-align: right;">
+                            <script>
+                            document.currentScript.parentElement.textContent = new Date().toLocaleTimeString('en-US', {{ hour: '2-digit', minute: '2-digit', hour12: false }});
+                            </script>
+                        </div>
                     </div>
                 </div>
             """, unsafe_allow_html=True)
@@ -570,7 +574,11 @@ with st.container():
                 <div class="message-container bot-container">
                     <div>
                         <div class="bot-bubble">{html_content}</div>
-                        <div class="timestamp">{msg.get('timestamp', '')}</div>
+                        <div class="timestamp">
+                            <script>
+                            document.currentScript.parentElement.textContent = new Date().toLocaleTimeString('en-US', {{ hour: '2-digit', minute: '2-digit', hour12: false }});
+                            </script>
+                        </div>
                     </div>
                 </div>
             """, unsafe_allow_html=True)
@@ -600,11 +608,10 @@ if st.session_state.is_processing and len(st.session_state.messages) > 0:
         # Get assistant response
         assistant_response = get_assistant_response(last_user_message)
         
-        # Add assistant response to chat (timestamp will be added by JavaScript)
+        # Add assistant response to chat
         st.session_state.messages.append({
             "role": "assistant", 
-            "content": assistant_response,
-            "timestamp": "local_time"  # Placeholder for JavaScript to replace
+            "content": assistant_response
         })
         
         # Reset processing state
@@ -644,24 +651,6 @@ st.markdown("""
 if st.session_state.messages or st.session_state.is_processing:
     st.markdown("""
         <script>
-        function updateLocalTimestamps() {
-            // Get current local time
-            const now = new Date();
-            const localTime = now.toLocaleTimeString('en-US', { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                hour12: false 
-            });
-            
-            // Update all timestamps that say "local_time"
-            const timestamps = document.querySelectorAll('.timestamp');
-            timestamps.forEach(timestamp => {
-                if (timestamp.textContent.includes('local_time')) {
-                    timestamp.textContent = localTime;
-                }
-            });
-        }
-        
         function smartScroll() {
             // Only scroll the chat messages container, not the whole page
             var chatMessages = document.querySelector('.chat-messages');
@@ -696,16 +685,10 @@ if st.session_state.messages or st.session_state.is_processing:
             }
         }
         
-        // Update timestamps first
-        updateLocalTimestamps();
-        
         // Execute scroll function
         smartScroll();
         
         // Execute again after content loads
-        setTimeout(function() {
-            updateLocalTimestamps();
-            smartScroll();
-        }, 300);
+        setTimeout(smartScroll, 300);
         </script>
     """, unsafe_allow_html=True)
