@@ -374,7 +374,7 @@ st.markdown("""
         display: none !important;
     }
     
-    /* Responsive adjustments */
+    /* Mobile-friendly adjustments */
     @media (max-width: 768px) {
         .user-bubble, .bot-bubble {
             max-width: 85% !important;
@@ -387,6 +387,27 @@ st.markdown("""
         
         .chat-container {
             padding: 15px !important;
+        }
+        
+        /* Mobile chat messages container */
+        .chat-messages {
+            max-height: 70vh !important;
+            margin-bottom: 15px !important;
+        }
+        
+        /* Mobile input styling */
+        .stTextInput > div > div > input {
+            font-size: 16px !important; /* Prevents zoom on iOS */
+            padding: 12px 20px !important;
+        }
+        
+        /* Ensure input is always visible on mobile */
+        .stTextInput {
+            position: sticky !important;
+            bottom: 0 !important;
+            z-index: 100 !important;
+            background-color: #000000 !important;
+            padding: 10px 0 !important;
         }
     }
     </style>
@@ -584,15 +605,41 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Auto-scroll to bottom (JavaScript injection)
+# Auto-scroll to bottom and mobile-friendly scrolling
 if st.session_state.messages or st.session_state.is_processing:
     st.markdown("""
         <script>
-        setTimeout(function() {
+        function scrollToBottom() {
+            // Scroll the chat messages container to bottom
             var chatMessages = document.querySelector('.chat-messages');
             if (chatMessages) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
-        }, 100);
+            
+            // Scroll the entire page to show input box (mobile-friendly)
+            setTimeout(function() {
+                var inputElement = document.querySelector('.stTextInput');
+                if (inputElement) {
+                    inputElement.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'end',
+                        inline: 'nearest'
+                    });
+                }
+                
+                // Alternative: scroll to bottom of page
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 200);
+        }
+        
+        // Execute immediately
+        scrollToBottom();
+        
+        // Also execute after a delay to catch dynamic content
+        setTimeout(scrollToBottom, 500);
+        setTimeout(scrollToBottom, 1000);
         </script>
     """, unsafe_allow_html=True)
