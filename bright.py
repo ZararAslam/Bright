@@ -477,7 +477,7 @@ st.markdown("""
         BRIGHT SPORTS AI
     </div>
     <div class="bright-subheader">
-        Your AI-powered BRIGHT assistant • Available 24/7
+        Your AI-powered <span style="background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 600;">BRIGHT</span> assistant • Available <span style="background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 600;">24/7</span>
     </div>
 """, unsafe_allow_html=True)
 
