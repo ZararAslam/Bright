@@ -547,15 +547,12 @@ with st.container():
     # Display chat history
     for i, msg in enumerate(st.session_state.messages):
         if msg["role"] == "user":
-            # Generate local timestamp with JavaScript
             st.markdown(f"""
                 <div class="message-container user-container">
                     <div>
                         <div class="user-bubble">{msg['content']}</div>
-                        <div class="timestamp" style="text-align: right;">
-                            <script>
-                            document.currentScript.parentElement.textContent = new Date().toLocaleTimeString('en-US', {{ hour: '2-digit', minute: '2-digit', hour12: false }});
-                            </script>
+                        <div class="timestamp" style="text-align: right;" id="timestamp-user-{i}">
+                            Loading...
                         </div>
                     </div>
                 </div>
@@ -574,10 +571,8 @@ with st.container():
                 <div class="message-container bot-container">
                     <div>
                         <div class="bot-bubble">{html_content}</div>
-                        <div class="timestamp">
-                            <script>
-                            document.currentScript.parentElement.textContent = new Date().toLocaleTimeString('en-US', {{ hour: '2-digit', minute: '2-digit', hour12: false }});
-                            </script>
+                        <div class="timestamp" id="timestamp-bot-{i}">
+                            Loading...
                         </div>
                     </div>
                 </div>
@@ -649,46 +644,73 @@ st.markdown("""
 
 # Auto-scroll to bottom for new messages
 if st.session_state.messages or st.session_state.is_processing:
-    st.markdown("""
+    st.markdown(f"""
         <script>
-        function smartScroll() {
+        function updateAllTimestamps() {{
+            // Get current local time
+            const now = new Date();
+            const localTime = now.toLocaleTimeString('en-US', {{ 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false 
+            }});
+            
+            // Update all timestamp elements
+            const timestamps = document.querySelectorAll('[id^="timestamp-"]');
+            timestamps.forEach(timestamp => {{
+                if (timestamp.textContent === 'Loading...') {{
+                    timestamp.textContent = localTime;
+                }}
+            }});
+        }}
+        
+        function smartScroll() {{
             // Only scroll the chat messages container, not the whole page
             var chatMessages = document.querySelector('.chat-messages');
-            if (chatMessages) {
+            if (chatMessages) {{
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+            }}
             
             // On mobile, keep messages visible above the fixed input
-            if (window.innerWidth <= 768) {
+            if (window.innerWidth <= 768) {{
                 // Don't scroll the page on mobile, just the chat container
                 var lastMessage = document.querySelector('.message-container:last-child');
-                if (lastMessage && chatMessages) {
+                if (lastMessage && chatMessages) {{
                     // Scroll within the chat container to show the latest message
                     var containerBottom = chatMessages.offsetTop + chatMessages.offsetHeight;
                     var messageBottom = lastMessage.offsetTop + lastMessage.offsetHeight;
                     
-                    if (messageBottom > containerBottom) {
+                    if (messageBottom > containerBottom) {{
                         chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }
-                }
-            } else {
+                    }}
+                }}
+            }} else {{
                 // On desktop, gently scroll to show the latest message
-                setTimeout(function() {
+                setTimeout(function() {{
                     var lastMessage = document.querySelector('.message-container:last-child');
-                    if (lastMessage) {
-                        lastMessage.scrollIntoView({ 
+                    if (lastMessage) {{
+                        lastMessage.scrollIntoView({{ 
                             behavior: 'smooth', 
                             block: 'nearest'
-                        });
-                    }
-                }, 100);
-            }
-        }
+                        }});
+                    }}
+                }}, 100);
+            }}
+        }}
+        
+        // Update timestamps first
+        updateAllTimestamps();
         
         // Execute scroll function
         smartScroll();
         
         // Execute again after content loads
-        setTimeout(smartScroll, 300);
+        setTimeout(function() {{
+            updateAllTimestamps();
+            smartScroll();
+        }}, 500);
+        
+        // And once more to be sure
+        setTimeout(updateAllTimestamps, 1000);
         </script>
     """, unsafe_allow_html=True)
