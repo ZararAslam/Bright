@@ -119,17 +119,18 @@ st.markdown("""
     }
     
     .bot-bubble {
-        background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7) !important;
-        color: #000000 !important;
+        background: linear-gradient(135deg, #1a1a1a, #2d2d2d) !important;
+        color: #ffffff !important;
         padding: 15px 20px !important;
         border-radius: 20px 20px 20px 6px !important;
         max-width: 70% !important;
         min-width: 80px !important;
         word-wrap: break-word !important;
-        box-shadow: 0 4px 16px rgba(253, 165, 3, 0.3) !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
         font-size: 15px !important;
         line-height: 1.5 !important;
-        border: 1px solid rgba(253, 165, 3, 0.5) !important;
+        border: 2px solid transparent !important;
+        background-clip: padding-box !important;
         display: inline-block !important;
         text-align: left !important;
         white-space: pre-wrap !important;
@@ -138,32 +139,49 @@ st.markdown("""
         font-weight: 500 !important;
     }
     
+    /* BRIGHT gradient border effect for bot messages */
+    .bot-bubble::before {
+        content: '' !important;
+        position: absolute !important;
+        inset: -2px !important;
+        padding: 2px !important;
+        background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7) !important;
+        border-radius: inherit !important;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
+        mask-composite: exclude !important;
+        -webkit-mask-composite: xor !important;
+        z-index: -1 !important;
+    }
+    
     /* Markdown styling within bot bubbles */
     .bot-bubble h1, .bot-bubble h2, .bot-bubble h3 {
         margin-top: 12px !important;
         margin-bottom: 8px !important;
-        color: #000000 !important;
+        background: linear-gradient(90deg, #fda503, #f737d8) !important;
+        background-clip: text !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
         font-weight: 600 !important;
     }
     
     .bot-bubble p {
         margin: 8px 0 !important;
-        color: #000000 !important;
+        color: #ffffff !important;
     }
     
     .bot-bubble ul, .bot-bubble ol {
         margin: 12px 0 !important;
         padding-left: 20px !important;
-        color: #000000 !important;
+        color: #ffffff !important;
     }
     
     .bot-bubble li {
         margin: 4px 0 !important;
-        color: #000000 !important;
+        color: #ffffff !important;
     }
     
     .bot-bubble code {
-        background-color: rgba(0, 0, 0, 0.2) !important;
+        background: linear-gradient(135deg, #fdbc2c, #fda503) !important;
         color: #000000 !important;
         padding: 3px 6px !important;
         border-radius: 6px !important;
@@ -173,26 +191,26 @@ st.markdown("""
     }
     
     .bot-bubble pre {
-        background-color: rgba(0, 0, 0, 0.2) !important;
-        border: 1px solid rgba(0, 0, 0, 0.3) !important;
+        background-color: #0a0a0a !important;
+        border: 1px solid rgba(253, 165, 3, 0.3) !important;
         padding: 12px !important;
         border-radius: 8px !important;
-        border-left: 4px solid #000000 !important;
+        border-left: 4px solid #fdbc2c !important;
         overflow-x: auto !important;
         margin: 12px 0 !important;
-        color: #000000 !important;
+        color: #ffffff !important;
     }
     
     .bot-bubble pre code {
         background: none !important;
-        color: #000000 !important;
+        color: #ffffff !important;
         padding: 0 !important;
     }
     
     /* Remove extra spacing from bot bubble content */
     .bot-bubble * {
         margin-bottom: 0 !important;
-        color: #000000 !important;
+        color: #ffffff !important;
     }
     
     .bot-bubble *:last-child {
@@ -459,6 +477,7 @@ def send_message():
     st.session_state.user_input = ""
 
 # Custom header with BRIGHT branding
+st.markdown("🔥 **NEW VERSION LOADED - V2.0** 🔥")  # TEMPORARY TEST MARKER
 st.markdown("""
     <div class="bright-header">
         BRIGHT SPORTS AI
