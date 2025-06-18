@@ -121,7 +121,7 @@ st.markdown("""
     .bot-bubble {
         background: linear-gradient(135deg, #1a1a1a, #2d2d2d) !important;
         color: #ffffff !important;
-        padding: 15px 20px !important;
+        padding: 17px 22px !important;
         border-radius: 20px 20px 20px 6px !important;
         max-width: 70% !important;
         min-width: 80px !important;
@@ -129,8 +129,8 @@ st.markdown("""
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
         font-size: 15px !important;
         line-height: 1.5 !important;
-        border: 2px solid !important;
-        border-image: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7) 1 !important;
+        border: 2px solid transparent !important;
+        background-clip: padding-box !important;
         display: inline-block !important;
         text-align: left !important;
         white-space: pre-wrap !important;
@@ -139,7 +139,7 @@ st.markdown("""
         font-weight: 500 !important;
     }
     
-    /* Alternative gradient border method */
+    /* Proper gradient border using box-shadow */
     .bot-bubble::before {
         content: '' !important;
         position: absolute !important;
@@ -148,8 +148,12 @@ st.markdown("""
         right: -2px !important;
         bottom: -2px !important;
         background: linear-gradient(90deg, #fda503 -10%, #f737d8 20%, #0e60ff 80%, #07c2f7) !important;
-        border-radius: 20px 20px 20px 6px !important;
+        border-radius: 22px 22px 22px 8px !important;
         z-index: -1 !important;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
+        mask-composite: xor !important;
+        -webkit-mask-composite: xor !important;
+        padding: 2px !important;
     }
     
     /* Markdown styling within bot bubbles */
